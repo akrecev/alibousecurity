@@ -1,9 +1,11 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import org.springframework.boot.gradle.plugin.SpringBootPlugin
 
 plugins {
     java
     id("org.springframework.boot")
     id("io.spring.dependency-management")
+    id ("com.github.johnrengelman.shadow")
 }
 
 group = "com.akretsev"
@@ -43,6 +45,21 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.security:spring-security-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+}
+
+tasks {
+    named<ShadowJar>("shadowJar") {
+        archiveBaseName.set("alibouSecurity")
+        archiveVersion.set("0.1")
+        archiveClassifier.set("")
+        manifest {
+            attributes(mapOf("Main-Class" to "com.akretsev.alibou_security.AlibouSecurityApplication"))
+        }
+    }
+
+    build {
+        dependsOn(shadowJar)
+    }
 }
 
 tasks.withType<Test> {
