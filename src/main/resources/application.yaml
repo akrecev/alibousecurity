@@ -1,0 +1,18 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: alibouSecurity
+  datasource:
+    url: jdbc:postgresql://localhost:5432/alibouDB
+    username: usr
+    password: pwd
+  sql:
+    init:
+      mode: never
+
+logging:
+  level:
+    root: info
+    sql: tr
