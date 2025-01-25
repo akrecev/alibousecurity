@@ -1,4 +1,4 @@
-package com.akretsev.alibou_security;
+package com.akretsev.alibousecurity;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

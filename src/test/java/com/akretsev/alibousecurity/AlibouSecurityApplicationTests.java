@@ -1,4 +1,4 @@
-package com.akretsev.alibou_security;
+package com.akretsev.alibousecurity;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
