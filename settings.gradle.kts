@@ -1,4 +1,4 @@
-rootProject.name = "alibou_security"
+rootProject.name = "alibouSecurity"
 
 pluginManagement {
     val dependencyManagement: String by settings

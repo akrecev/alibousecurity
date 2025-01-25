@@ -8,8 +8,7 @@ plugins {
     id ("com.github.johnrengelman.shadow")
 }
 
-group = "com.akretsev"
-version = "0.0.1-SNAPSHOT"
+version = "0.0.1"
 
 java {
     toolchain {
@@ -53,7 +52,7 @@ tasks {
         archiveVersion.set("0.1")
         archiveClassifier.set("")
         manifest {
-            attributes(mapOf("Main-Class" to "com.akretsev.alibou_security.AlibouSecurityApplication"))
+            attributes(mapOf("Main-Class" to "com.akretsev.alibousecurity.AlibouSecurityApplication"))
         }
     }
 
