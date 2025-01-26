@@ -14,7 +14,7 @@ import java.io.IOException;
 @Component
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-
+    private final JwtService jwtService;
     private static final String BEARER_PREFIX = "Bearer ";
 
     @Override
@@ -33,6 +33,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         jwt = authHeader.substring(BEARER_PREFIX.length());
-        userEmail = // todo extract the userEmail from JWT token;
+        userEmail = jwtService.getUsername(jwt); // todo extract the userEmail from JWT token;
     }
 }

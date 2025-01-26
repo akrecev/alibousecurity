@@ -34,6 +34,8 @@ dependencyManagement {
     }
 }
 
+val jsonwebtokenVersion: String by project
+
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-security")
@@ -42,6 +44,11 @@ dependencies {
     compileOnly("org.projectlombok:lombok")
     runtimeOnly("org.postgresql:postgresql")
     annotationProcessor("org.projectlombok:lombok")
+
+    implementation("io.jsonwebtoken:jjwt-api:$jsonwebtokenVersion")
+    runtimeOnly("io.jsonwebtoken:jjwt-impl:$jsonwebtokenVersion")
+    runtimeOnly("io.jsonwebtoken:jjwt-jackson:$jsonwebtokenVersion")
+
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.security:spring-security-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
