@@ -1,11 +1,14 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+import name.remal.gradle_plugins.sonarlint.SonarLintExtension
 import org.springframework.boot.gradle.plugin.SpringBootPlugin
 
 plugins {
     java
     id("org.springframework.boot")
     id("io.spring.dependency-management")
-    id ("com.github.johnrengelman.shadow")
+    id("com.github.johnrengelman.shadow")
+    id("name.remal.sonarlint")
+    id("com.diffplug.spotless")
 }
 
 version = "0.0.1"
@@ -54,6 +57,31 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
+tasks.withType<JavaCompile> {
+    options.encoding = "UTF-8"
+    options.compilerArgs.addAll(listOf("-Xlint:all,-serial,-processing"))
+
+    dependsOn("spotlessApply")
+}
+apply<name.remal.gradle_plugins.sonarlint.SonarLintPlugin>()
+configure<SonarLintExtension> {
+    nodeJs {
+        detectNodeJs = false
+        logNodeJsNotFound = false
+    }
+}
+apply<com.diffplug.gradle.spotless.SpotlessPlugin>()
+configure<com.diffplug.gradle.spotless.SpotlessExtension> {
+    java {
+        palantirJavaFormat("2.39.0")
+    }
+}
+
+tasks.withType<Test> {
+    useJUnitPlatform()
+
+}
+
 tasks {
     named<ShadowJar>("shadowJar") {
         archiveBaseName.set("alibouSecurity")
@@ -67,9 +95,4 @@ tasks {
     build {
         dependsOn(shadowJar)
     }
-}
-
-tasks.withType<Test> {
-    useJUnitPlatform()
-
 }

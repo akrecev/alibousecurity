@@ -9,5 +9,4 @@ public class AlibouSecurityApplication {
     public static void main(String[] args) {
         SpringApplication.run(AlibouSecurityApplication.class, args);
     }
-
 }
