@@ -32,6 +32,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         jwt = authHeader.substring(BEARER_PREFIX.length());
-        userEmail = jwtService.getUsername(jwt); // TODO extract the userEmail from JWT token;
+        userEmail = jwtService.getUsername(jwt);
     }
 }
