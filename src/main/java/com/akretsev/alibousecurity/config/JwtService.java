@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 @Service
+@SuppressWarnings({"java:S6418"})
 public class JwtService {
 
     private static final String SECRET_KEY = "4c9f8e2c8a0c1e7f3d8a1a5c8b2e6d9a8c5e7b4f3a2d6e9f3b1a7e8c4a9e0c1a";

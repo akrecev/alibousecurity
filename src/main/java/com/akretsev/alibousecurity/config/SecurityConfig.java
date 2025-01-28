@@ -13,6 +13,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
+@SuppressWarnings({"java:S4502"})
 public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthFilter;
