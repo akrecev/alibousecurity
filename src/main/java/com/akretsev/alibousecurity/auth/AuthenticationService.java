@@ -1,6 +1,6 @@
 package com.akretsev.alibousecurity.auth;
 
-import com.akretsev.alibousecurity.config.JwtService;
+import com.akretsev.alibousecurity.security.JwtService;
 import com.akretsev.alibousecurity.user.model.Role;
 import com.akretsev.alibousecurity.user.model.User;
 import com.akretsev.alibousecurity.user.repository.UserRepository;
