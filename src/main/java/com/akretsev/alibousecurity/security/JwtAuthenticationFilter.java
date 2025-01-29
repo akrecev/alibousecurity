@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,7 +22,9 @@ import org.springframework.web.filter.OncePerRequestFilter;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
-    private static final String BEARER_PREFIX = "Bearer ";
+
+    @Value("${application.security.jwt.bearer-prefix}")
+    private String bearerPrefix;
 
     @Override
     protected void doFilterInternal(
@@ -33,12 +36,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         final String jwt;
         final String userEmail;
 
-        if (authHeader == null || !authHeader.startsWith(BEARER_PREFIX)) {
+        if (authHeader == null || !authHeader.startsWith(bearerPrefix)) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        jwt = authHeader.substring(BEARER_PREFIX.length());
+        jwt = authHeader.substring(bearerPrefix.length());
         userEmail = jwtService.getUsername(jwt);
 
         if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
