@@ -14,7 +14,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 @Service
-@SuppressWarnings({"java:S6418"})
 public class JwtService {
 
     @Value("${application.security.jwt.secret-key}")

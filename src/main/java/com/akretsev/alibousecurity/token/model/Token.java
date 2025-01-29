@@ -2,10 +2,7 @@ package com.akretsev.alibousecurity.token.model;
 
 import com.akretsev.alibousecurity.user.model.User;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
 @Builder(toBuilder = true)
@@ -16,19 +13,21 @@ public class Token {
 
     @Id
     @GeneratedValue
-    public Long id;
+    private Long id;
 
     @Column(unique = true)
-    public String token;
+    private String tokenValue;
 
+    @Builder.Default
     @Enumerated(EnumType.STRING)
-    public TokenType tokenType = TokenType.BEARER;
+    private TokenType tokenType = TokenType.BEARER;
 
-    public boolean revoked;
+    private boolean revoked;
 
-    public boolean expired;
+    private boolean expired;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    public User user;
+    @ToString.Exclude
+    private User user;
 }
