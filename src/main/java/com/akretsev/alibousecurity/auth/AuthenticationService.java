@@ -1,5 +1,6 @@
 package com.akretsev.alibousecurity.auth;
 
+import com.akretsev.alibousecurity.exception.UnauthorizedException;
 import com.akretsev.alibousecurity.security.JwtService;
 import com.akretsev.alibousecurity.token.model.Token;
 import com.akretsev.alibousecurity.token.model.TokenType;
@@ -16,6 +17,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -54,7 +56,11 @@ public class AuthenticationService {
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         String email = request.getEmail();
         String password = request.getPassword();
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
+        try {
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
+        } catch (AuthenticationException e) {
+            throw new UnauthorizedException("wrong email & password pair");
+        }
 
         var user = userRepository
                 .findByEmail(request.getEmail())

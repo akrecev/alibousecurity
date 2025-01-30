@@ -1,7 +1,6 @@
 package com.akretsev.alibousecurity.exception;
 
-public class UnauthorizedException extends ApiException {
-    public UnauthorizedException(String message) {
-        super(message, "UNAUTHORISED");
-    }
-}
+import lombok.experimental.StandardException;
+
+@StandardException
+public class UnauthorizedException extends RuntimeException {}
