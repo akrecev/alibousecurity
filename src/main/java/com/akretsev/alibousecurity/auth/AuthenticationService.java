@@ -1,6 +1,6 @@
 package com.akretsev.alibousecurity.auth;
 
-import com.akretsev.alibousecurity.exception.UnauthorizedException;
+import com.akretsev.alibousecurity.exception.AuthException;
 import com.akretsev.alibousecurity.security.JwtService;
 import com.akretsev.alibousecurity.token.model.Token;
 import com.akretsev.alibousecurity.token.model.TokenType;
@@ -59,7 +59,7 @@ public class AuthenticationService {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
         } catch (AuthenticationException e) {
-            throw new UnauthorizedException("wrong email & password pair");
+            throw new AuthException("wrong email or password");
         }
 
         var user = userRepository
