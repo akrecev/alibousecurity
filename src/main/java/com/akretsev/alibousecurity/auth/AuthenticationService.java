@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -51,10 +52,14 @@ public class AuthenticationService {
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
+        String email = request.getEmail();
+        String password = request.getPassword();
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
 
-        var user = userRepository.findByEmail(request.getEmail()).orElseThrow();
+        var user = userRepository
+                .findByEmail(request.getEmail())
+                .orElseThrow(() -> new UsernameNotFoundException(
+                        String.format("User with username %s not found", request.getEmail())));
         var jwtToken = jwtService.generateToken(user);
         var refreshToken = jwtService.generateRefreshToken(user);
         revokeAllUserTokens(user);
@@ -78,7 +83,10 @@ public class AuthenticationService {
         refreshToken = authHeader.substring(bearerPrefix.length());
         userEmail = jwtService.getUsername(refreshToken);
         if (userEmail != null) {
-            var user = userRepository.findByEmail(userEmail).orElseThrow();
+            var user = userRepository
+                    .findByEmail(userEmail)
+                    .orElseThrow(() ->
+                            new UsernameNotFoundException(String.format("User with username %s not found", userEmail)));
             if (jwtService.isTokenValid(refreshToken, user)) {
                 var accessToken = jwtService.generateToken(user);
                 revokeAllUserTokens(user);
